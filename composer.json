@@ -1,0 +1,12 @@
+{
+    "name": "thomaslhotta/phpunit-coverage-html-single-page",
+    "description": "Compiles PHPUnit HTML code coverage reports into a single HTML file",
+    "type": "project",
+    "bin": [
+        "bin/compile-code-coverage.php"
+    ],
+    "require": {
+        "wp-cli/php-cli-tools": "^0.11.11"
+    },
+    "license": "MIT"
+}
