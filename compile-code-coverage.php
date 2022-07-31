@@ -156,6 +156,13 @@ function compile() {
                     scripts.forEach( function( script ) {
                         document.body.append( script );
                     } );
+
+                    // Scroll to requested anchor
+                    if (window.location.hash != "") {
+                        element_to_scroll_to = document.getElementById(window.location.hash.slice(1));
+                        element_to_scroll_to.scrollIntoView();
+                    }
+                    
                 });
             }, function() {
                 alert("Cloud not open zipped content.");
@@ -190,16 +197,16 @@ function replace_link_attributes(string $content, string $tag, string $current_p
     ];
 
     $content = preg_replace_callback(
-        '/(<' . $tag . '\s[^>]*' . $attributes[$tag] . '=\")([^\"]*)(\"[^>]*>)/',
+        '/(<' . $tag . '\s[^>]*' . $attributes[$tag] . '=\")([^\"#]*)([^\"]*)(\"[^>]*>)/',
         function ($matches) use ($base_path, $current_path, $prefix) {
-            if (0 === strpos($matches[2], '#')) {
-                return $matches[1] . $matches[2] . $matches[3];
+            if ($matches[2]==='' && 0 === strpos($matches[3], '#')) {
+                return $matches[1] . $matches[2] . $matches[3] . $matches[4];
             }
 
             $matches[2] = realpath($base_path . '/' . dirname($current_path) . '/' . $matches[2]);
             $matches[2] = str_replace($base_path . '/', '', $matches[2]);
 
-            return $matches[1] . $prefix . $matches[2] . $matches[3];
+            return $matches[1] . $prefix . $matches[2] . $matches[3] . $matches[4];
         },
         $content
     );
